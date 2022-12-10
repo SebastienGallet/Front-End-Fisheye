@@ -13,6 +13,7 @@ function photographerFactory(data) {
         const img = document.createElement( 'img' );
         const picture = `assets/photographers/${portrait}`;
         img.setAttribute("src", picture);
+        img.setAttribute('alt', `Photo de profil du photogrape ${name}`);
 
         const h2 = document.createElement( 'h2' );
         h2.textContent = name;

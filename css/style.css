@@ -54,6 +54,7 @@ h1 {
     color: #D3573C;
     font-size: 36px;
     margin: 20px auto 0;
+    white-space: nowrap;
 }
 
 .photographer_section article img {
@@ -83,4 +84,34 @@ h1 {
 .photographer_section article .price {
     font-size: 12px;
     color: #757575;
+}
+
+@media screen and (max-width: 1000px) {
+    .photographer_section {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 100px;
+        justify-content: center;
+    }
+    .logo {
+        margin-left: 0;
+    }
+    h1{
+        margin-right: 0;
+        font-size: 32px;
+    }
+    header {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-around;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    h1 {
+        font-size: 22px;
+    }
+    .logo {
+        height: 30px;
+    }
 }
