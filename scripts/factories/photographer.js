@@ -40,5 +40,7 @@ function photographerFactory(data) {
 
         return (article);
     }
-    return {getUserCardDOM }
+
+    return {getUserCardDOM}
+
 }
