@@ -74,3 +74,70 @@ form input {
     border: none;
     border-radius: 5px;
 }
+
+.filtre{
+    margin: 0 100px;
+    display: flex;
+}
+
+.filtre .trier {
+    font-size: 18px;
+    color: black;
+    font-weight: 700;
+    margin-right: 20px;
+}
+
+.filtre #select {
+    background: #901C1C;
+    border-radius: 5px;
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+    height: 69px;
+    width: 170px;
+    padding-left: 20px;
+}
+
+.filtre #select option {
+    height: 68px;
+}
+
+.send_button {
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    padding: 11px;
+    width: 170px;
+    height: 70px;
+    border: none;
+    background-color: #901C1C;
+    border-radius: 5px;
+    cursor: not-allowed;
+    opacity: 0.3;
+    margin-bottom: 40px;
+}
+
+.formData[data-error]::after {
+    content: attr(data-error);
+    font-size: 15px;
+    color: #e54858;
+    display: block;
+    margin-top: 7px;
+    margin-bottom: 7px;
+    text-align: right;
+    line-height: 0.3;
+    opacity: 0;
+    transition: 0.3s;
+  }
+  .formData[data-error-visible="true"]::after {
+    opacity: 1;
+  }
+  .formData[data-error-visible="true"] .text-control {
+    border: 2px solid #e54858;
+  }
+   
+  input[data-error]::after {
+      content: attr(data-error);
+      font-size: 15px;
+      color: red;
+  } 
