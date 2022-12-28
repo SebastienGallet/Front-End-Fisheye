@@ -1,4 +1,3 @@
-
 async function displayData(photographers) {
     console.log(photographers)
     
