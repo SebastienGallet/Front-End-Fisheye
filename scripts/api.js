@@ -11,9 +11,13 @@ async function getData() {
 
 
 // Medias by id
-async function getMediaById(id){
-    const { media } = await getData();
-    return media.filter(m => m.photographerId === id );
+async function getMediaById() {
+  const { media } = await getData();
+  const urlData = window.location.search;
+  const getParams = new URLSearchParams(urlData);
+  const photographerId = getParams.get('photographer');
+  const mediaByPhotographer = media.filter((e) => photographerId == e.photographerId);
+  return mediaByPhotographer;
 }
 
 // Tout les photographes
@@ -33,5 +37,7 @@ async function getPhotographersById(){
 }
 
 
+
+export {getPhotographers, getPhotographersById, getMediaById};
 
 

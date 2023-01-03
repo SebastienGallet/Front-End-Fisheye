@@ -1,8 +1,10 @@
+import { getPhotographers } from "../api.js";
+import photographerFactory from "../factories/photographer.js";
+
 async function displayData(photographers) {
     console.log(photographers)
-    
-    photographers.forEach((photographer) => {
-        const photographersSection = document.querySelector(".photographer_section");
+    const photographersSection = document.querySelector(".photographer_section");
+    photographers.map((photographer) => {
         const photographerModel = photographerFactory(photographer);
         const userCardDOM = photographerModel.getUserCardDOM();
         let article = document.createElement('article')
