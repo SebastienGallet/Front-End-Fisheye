@@ -1,62 +1,141 @@
-function getLightbox() {
-    
-    
+// // Création de la lightbox
+// const createLightbox = () => {
+//     const lightbox = document.querySelector('.lightbox')
+//     lightbox.innerHTML = `
+//       <i class="fa-solid fa-times icon close-icon"></i>
+//       <i class="fa-solid fa-arrow-left icon prev-icon"></i>
+//       <i class="fa-solid fa-arrow-right icon next-icon"></i>
+//       <div class="lightbox-content"></div>
+//     `;
+  
+//     // Ajout de la lightbox au DOM
+//     document.body.appendChild(lightbox);
+//   }
+  
+//   // Affichage de la lightbox
+//   const showLightbox = () => {
+//     const lightbox = document.querySelector('.lightbox');
+//     lightbox.classList.add('visible');
+//   }
+  
+//   // Masquage de la lightbox
+//   const hideLightbox = () => {
+//     const lightbox = document.querySelector('.lightbox');
+//     lightbox.classList.remove('visible');
+//   }
+  
+//   // Gestion de la navigation avec les flèches
+//   const handleNavigation = () => {
+//     const prevIcon = document.querySelector('.prev-icon');
+//     const nextIcon = document.querySelector('.next-icon');
+  
+//     prevIcon.addEventListener('click', () => {
+//       // code de navigation vers l'élément précédent
+//     });
+  
+//     nextIcon.addEventListener('click', () => {
+//       // code de navigation vers l'élément suivant
+//     });
+//   }
+  
+//   // Gestion du clic sur la croix de fermeture
+//   const handleClose = () => {
+//     const closeIcon = document.querySelector('.close-icon');
+//     closeIcon.addEventListener('click', hideLightbox);
+//   }
+  
+//   // Initialisation de la lightbox
+//   const initLightbox = () => {
+//     createLightbox();
+//     handleNavigation();
+//     handleClose();
+//   }
+  
+//   initLightbox();
 
 
-    // return `
-    // <svg id="fleche-gauche" width="30" height="48" viewBox="0 0 30 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-    //     <path d="M29.6399 42.36L11.3199 24L29.6399 5.64L23.9999 -2.46532e-07L-0.000107861 24L23.9999 48L29.6399 42.36Z" fill="#911C1C"/>
-    // </svg>
-    // <div class="mediabox">
-    //     ${media}
-    //     <p class="media-title">${title}</p>
-    // </div>
-    // <svg id="close-lightbox" width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-    //     <path d="M42 4.23L37.77 0L21 16.77L4.23 0L0 4.23L16.77 21L0 37.77L4.23 42L21 25.23L37.77 42L42 37.77L25.23 21L42 4.23Z" fill="#911C1C"/>
-    // </svg>
-    // <svg id="fleche-droite" width="30" height="48" viewBox="0 0 30 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-    //     <path d="M0.360108 5.64L18.6801 24L0.360107 42.36L6.00011 48L30.0001 24L6.00011 2.92828e-06L0.360108 5.64Z" fill="#911C1C"/>
-    // </svg>`
-}
 
 
-/*--------------------------------------------------------------*/
-// Création de l'élément lightbox et de ses éléments enfants (flèches de navigation et bouton de fermeture)
-// Stockage de l'index du média actuellement affiché dans la lightbox
-let currentIndex;
+//-------------------------------------------------------------------------------------------------------------------------------------
 
-document.querySelectorAll('.media-link').forEach((media) => {
-  media.addEventListener('click', (event) => {
-    event.preventDefault();
-    console.log('ca click')
-    const lightbox = document.querySelector('.lightbox');
-    // Affichage de la lightbox et chargement du contenu du média dans la lightbox
-    lightbox.style.opacity = 1;
-    lightbox.querySelector('.lightbox__content').innerHTML = media[currentIndex].innerHTML;
 
-    // Mise à jour de l'index du média actuellement affiché dans la lightbox
-    currentIndex = Array.from(document.querySelectorAll('.media')).indexOf(media);
 
-    // Écouteur d'événement click sur les boutons de navigation et de fermeture
-    lightbox.querySelectorAll('.lightbox__nav, .lightbox__close').forEach((button) => {
-      button.addEventListener('click', (event) => {
-        event.preventDefault();
+// // Création de la lightbox
+// const createLightbox = () => {
+//     const lightbox = document.querySelector('.lightbox')
+//     lightbox.innerHTML = `
+//       <i class="fa-solid fa-times icon close-icon"></i>
+//       <i class="fa-solid fa-arrow-left icon prev-icon"></i>
+//       <i class="fa-solid fa-arrow-right icon next-icon"></i>
+//       <div class="lightbox-content"></div>
+//     `;
+  
+//     // Ajout de la lightbox au DOM
+//     document.body.appendChild(lightbox);
+//   }
+  
+//   // Affichage de la lightbox
+//   const showLightbox = () => {
+//     const lightbox = document.querySelector('.lightbox');
+//     lightbox.classList.add('visible');
+//     updateLightboxContent();
+//   }
+  
+//   // Masquage de la lightbox
+//   const hideLightbox = () => {
+//     const lightbox = document.querySelector('.lightbox');
+//     lightbox.classList.remove('visible');
+//   }
+  
+//   // Navigation vers l'élément précédent
+//   const navigatePrev = () => {
+//     currentIndex = Math.max(currentIndex - 1, 0);
+//     updateLightboxContent();
+//   }
+  
+//   // Navigation vers l'élément suivant
+//   const navigateNext = () => {
+//     currentIndex = Math.min(currentIndex + 1, elements.length - 1);
+//     updateLightboxContent();
+//   }
+  
+//   // Mise à jour du contenu de la lightbox
+//   const updateLightboxContent = () => {
+//     const element = elements[currentIndex];
+//     const lightboxContent = document.querySelector('.lightbox-content');
+//     lightboxContent.innerHTML = element.getMediaDOM();
+//   }
+  
+//   // Gestion de la navigation avec les flèches
+//   const handleNavigation = () => {
+//     const prevIcon = document.querySelector('.prev-icon');
+//     const nextIcon = document.querySelector('.next-icon');
+  
+//     prevIcon.addEventListener('click', navigatePrev);
+//     nextIcon.addEventListener('click', navigateNext);
+//   }
+  
+//   // Gestion du clic sur la croix de fermeture
+//   const handleClose = () => {
+//     const closeIcon = document.querySelector('.close-icon');
+//     closeIcon.addEventListener('click', hideLightbox);
+//   }
+  
+//   // Initialisation de la lightbox
+//   const initLightbox = () => {
+//     createLightbox();
+//     handleNavigation();
+//     handleClose();
+//   }
+  
+//   initLightbox();
+// // Récupération de tous les éléments de la page
+// const mediaElements = document.querySelectorAll('.media-card');
 
-        // Mise à jour de l'index du média en fonction du bouton cliqué
-        if (button.classList.contains('lightbox__nav--prev')) {
-          currentIndex = (currentIndex > 0) ? currentIndex - 1 : media.length - 1;
-        } else if (button.classList.contains('lightbox__nav--next')) {
-          currentIndex = (currentIndex < media.length - 1) ? currentIndex + 1 : 0;
-        }
-
-        // Mise à jour du contenu de la lightbox en fonction de l'index mis à jour
-        lightbox.querySelector('.lightbox__content').innerHTML = media[currentIndex].innerHTML;
-
-        // Fermeture de la lightbox si le bouton de fermeture est cliqué
-        if (button.classList.contains('lightbox__close')) {
-          lightbox.style.opacity = 0;
-        }
-      });
-    });
-  });
-});
+// // Ajout d'un gestionnaire d'événement sur chaque élément
+// mediaElements.forEach(element => {
+//   element.addEventListener('click', event => {
+//     event.preventDefault(); // Empêche le comportement par défaut
+//     showLightbox();
+//   });
+// });

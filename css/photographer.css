@@ -247,13 +247,15 @@ input[data-error]::after {
 
 .likes .media-likes {
     font-weight: 500;
-    font-size: 24px;
-    color: #901C1C;
+    font-size: 16px;
+    color: black;
     margin: 0 10px 0 0;
 }
 
 .likes .fa-heart{
     font-size: 24px;
+    color: grey;
+    cursor: pointer;
 }
 
 
@@ -266,8 +268,28 @@ input[data-error]::after {
     bottom: 0;
     right: 50px;
     width: 376px;
-    height: 89px;
+    height: 73px;
     background: #db8876;
-    border-radius: 5px;
+    border-radius: 5px 5px 0 0;
     z-index: 100;
+}
+
+.info-price .total{
+    display: flex;
+    align-items: center;
+}
+
+.info-price .total .total-likes{
+    font-size: 24px;
+    font-weight: 500;
+    margin-right: 10px;
+}
+
+.info-price .total i{
+    font-size: 24px;
+}
+
+.info-price .price{
+    font-size: 24px;
+    font-weight: 500;
 }
