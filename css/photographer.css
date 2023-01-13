@@ -208,9 +208,10 @@ input[data-error]::after {
 .media-card{
     display: block;
     margin: auto;
+    cursor: pointer;
 }
 
-.media-link .mediaChoice{
+.mediaChoice{
     width: 350px;
     height: 300px;
     border-radius: 5px;
@@ -293,3 +294,4 @@ input[data-error]::after {
     font-size: 24px;
     font-weight: 500;
 }
+

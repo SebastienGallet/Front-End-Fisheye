@@ -1,4 +1,5 @@
 export function sortMedia(medias, sortType) {
+  
     if (sortType === 'popularité') {
       medias.sort((a, b) => {
         if (a.likes > b.likes) {
@@ -26,4 +27,3 @@ export function sortMedia(medias, sortType) {
     }
   }
 
-  
