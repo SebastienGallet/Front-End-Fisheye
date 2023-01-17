@@ -6,13 +6,14 @@ const message = document.querySelector('#message-input');
 const sendButton = document.querySelector('.send_button')
 const regexName = /^[A-Z][A-Za-z\é\è\ê\î\ï\ë\ô\ö\û\ü-]+$/
 const regexMail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
+const thanks = document.querySelector(".thanks");
 
 firstName.addEventListener('input', checkFirstName)
 lastName.addEventListener('input', checkLastName)
 mail.addEventListener('input', checkMail)
 message.addEventListener('input', checkMessage)
 form.addEventListener('input', validate)
+
 
 function checkFirstName() {
     if (!isFirstNameValid()) {
@@ -98,6 +99,11 @@ function showError(element) {
     return (element.parentElement.setAttribute("data-error-visible", "true"))
 }
 
+function showValidationMessage() {
+  form.style.display = "none";
+  thanks.style.display = "flex"
+}
+
 function validate(){
     if (
       isFirstNameValid() &&
@@ -118,4 +124,7 @@ form.addEventListener('submit', function(e) {
   console.log('Nom: ' + lastName.value);
   console.log('Email: ' + mail.value);
   console.log('Message: ' + message.value);
+  if (validate() === true) {
+    showValidationMessage()
+  }
 });
