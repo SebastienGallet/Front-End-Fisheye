@@ -20,10 +20,15 @@
       <div class="filtre">
         <p class="trier">Trier par</p>
         <select name="filtres" id="select" aria-hidden="true">
-            <option value="date">Date</option>
-            <option value="popularité">Popularité</option>
-            <option value="titre">Titre</option>
+            <option value="Date">Date</option>
+            <option value="Popularité">Popularité</option>
+            <option value="Titre">Titre</option>
         </select>    
+        <div class="sort-list" role="listbox" aria-label="sort list">
+          <button class="sort-entry" id="firstchoice" data-id="Popularité" aria-label="Popularité">Popularité <i class="fas fa-angle-up" aria-hidden="true"></i></button>
+          <button class="sort-entry" id="secondchoice" data-id="Date" aria-label="Date">Date</button>
+          <button class="sort-entry" id="thirdchoice" data-id="Titre" aria-label="Titre">Titre</button>
+        </div>
       </div>
       <div class="medias"></div>
       <div id="contact_modal">

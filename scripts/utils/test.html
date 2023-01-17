@@ -8,83 +8,24 @@
   <title>Document</title>
 </head>
 <body>
-<div class="sort-section">
-  <span class="sort-section_text">Trier par</span>
-  <div class="sort-button">
-    <button class="sort-entry" role="button" aria-label="sort" aria-expanded="false">
-      Popularité
-    </button>
-    <!-- <i class="fas fa-angle-down" aria-hidden="true"></i> -->
+  <div class="sort-section">
+    <span class="sort-section_text">Trier par</span>
+    <div class="sort-button">
+      <button class="sort-entry" role="button" aria-label="sort" aria-expanded="false">
+        Popularité
+      </button>
+      <!-- <i class="fas fa-angle-down" aria-hidden="true"></i> -->
+    </div>
+    <div class="sort-list" role="listbox" aria-label="sort list">
+      <button class="sort-entry sort-select first-entry" data-id="Popularité" aria-label="Popularité">Popularité</button>
+
+      <button class="sort-entry sort-select col-span-2" data-id="Date" aria-label="Date">Date</button>
+      <button class="sort-entry sort-select col-span-2" data-id="Titre" aria-label="Titre">Titre</button>
+    </div>
   </div>
-  <div class="sort-list" role="listbox" aria-label="sort list">
-    <button class="sort-entry sort-select first-entry" data-id="likes" aria-label="likes">Popularité</button>
-    <!-- <i class="fas fa-angle-up" aria-hidden="true"></i> -->
-    <button class="sort-entry sort-select col-span-2" data-id="date" aria-label="date">Date</button>
-    <button class="sort-entry sort-select col-span-2" data-id="title" aria-label="title">Titre</button>
-  </div>
-</div>
-
-<style>
-  .sort-section{
-    margin: 0 100px;
-    display: flex;
-  }
-
-  .sort-section_text{
-    font-size: 18px;
-    color: black;
-    font-weight: 700;
-    margin-right: 20px;
-  }
-
-  .sort-entry{
-    background: #901C1C;
-    border-radius: 5px;
-    color: white;
-    font-size: 18px;
-    font-weight: 700;
-    height: 69px;
-    width: 170px;
-    padding-left: 20px;
-  }
-
-  .sort-list{
-    display: flex;
-    flex-direction: column;
-  }
-</style>
 
 <script>
-function sortMedia(medias, sortType) {
-  
-  if (sortType === 'popularité') {
-    medias.sort((a, b) => {
-      if (a.likes > b.likes) {
-        return -1;
-      } else if (a.likes < b.likes) {
-        return 1;
-      } else {
-        return 0;
-      }
-    });
-  } else if (sortType === 'date') {
-    medias.sort((a, b) => {
-      if (a.date < b.date) {
-        return -1;
-      } else if (a.date > b.date) {
-        return 1;
-      } else {
-        return 0;
-      }
-    });
-  } else if (sortType === 'titre') {
-    medias.sort((a, b) => {
-      return a.title.localeCompare(b.title);
-    });
-  }
-}
-
-const sortButton = document.querySelector('.sort-button');
+  const sortButton = document.querySelector('.sort-button');
 const sortList = document.querySelector('.sort-list');
 const sortEntries = document.querySelectorAll('.sort-entry');
 
@@ -100,6 +41,23 @@ sortEntries.forEach(entry => {
     sortList.classList.remove('show');
   });
 });
+
+</script>
+
+<div id="options">
+  <button type="button" class="option" value="option1">Option 1</button>
+  <button type="button" class="option" value="option2">Option 2</button>
+  <button type="button" class="option" value="option3">Option 3</button>
+</div>
+
+<script>
+  let options = document.querySelectorAll('.option');
+  options.forEach(option => {
+    option.addEventListener('click', function(event) {
+      let selectedOption = event.target.value;
+      console.log(selectedOption);
+    });
+  });
 </script>
 </body>
 </html>

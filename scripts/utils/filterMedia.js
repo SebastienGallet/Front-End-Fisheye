@@ -1,29 +1,27 @@
-export function sortMedia(medias, sortType) {
-  
-    if (sortType === 'popularité') {
-      medias.sort((a, b) => {
-        if (a.likes > b.likes) {
-          return -1;
-        } else if (a.likes < b.likes) {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
-    } else if (sortType === 'date') {
-      medias.sort((a, b) => {
-        if (a.date < b.date) {
-          return -1;
-        } else if (a.date > b.date) {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
-    } else if (sortType === 'titre') {
-      medias.sort((a, b) => {
-        return a.title.localeCompare(b.title);
-      });
-    }
+export function sortMedia(medias, selectedOption) {
+  switch (selectedOption) {
+      case "Popularité":
+          medias.sort(function(a, b) {
+              return b.likes - a.likes;
+          });
+          break;
+      case "Date":
+          medias.sort(function(a, b) {
+              return new Date(b.date) - new Date(a.date);
+          });
+          break;
+      case "Titre":
+          medias.sort(function(a, b) {
+              var nameA = a.title.toUpperCase();
+              var nameB = b.title.toUpperCase();
+              if (nameA < nameB) {
+                  return -1;
+              }
+              if (nameA > nameB) {
+                  return 1;
+              }
+              return 0;
+          });
+          break;
+  }
 }
-

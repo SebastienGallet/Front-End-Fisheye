@@ -16,7 +16,11 @@ const photographer = await getPhotographersById();
 const medias = await getMediaById();
 
 const selectElement = document.querySelector('select');
-console.log(selectElement.value)
+const sortlist = document.querySelector(".sort-list")
+selectElement.addEventListener('click', () => {
+  selectElement.style.display = "none"
+  sortlist.style.display = "flex"
+})
 selectElement.addEventListener('change', () => {
   const selectedOption = selectElement.value;
   sortMedia(medias, selectedOption);
@@ -26,6 +30,34 @@ selectElement.addEventListener('change', () => {
   section.innerHTML = '';
   displayMedia(medias, photographer);
 });
+
+
+let sortEntries = document.querySelectorAll('.sort-entry');
+sortEntries.forEach(entry => {
+    entry.addEventListener('click', function(event) {
+        selectElement.style.display = "flex"
+        sortlist.style.display = "none"
+        let selectedId = event.target.dataset.id;
+        let select = document.querySelector('select');
+        switch (selectedId) {
+            case "Popularité":
+                select.options.selectedIndex = 1; // Popularité is the second option
+                break;
+            case "Date":
+                select.options.selectedIndex = 0; // Date is the first option
+                break;
+            case "Titre":
+                select.options.selectedIndex = 2; // Titre is the third option
+                break;
+        }
+        sortMedia(medias, select.value);
+        const section = document.querySelector('.medias');
+        section.innerHTML = '';
+        displayMedia(medias, photographer);
+    });
+});
+
+
 
 async function displayMedia(medias) {
   const section = document.querySelector('.medias');
@@ -93,7 +125,11 @@ async function displayMedia(medias) {
       localStorage.setItem(`likes-${media.id}`, likes);
     });
   });
-
+   /*---------------------------------------------------------------------------------
+  -----------------------------------------------------------------------------------
+  -------------------------------LIGHTBOX--------------------------------------------
+  -----------------------------------------------------------------------------------
+  ---------------------------------------------------------------------------------*/
   class lightbox {
     static init() {
       const links = Array.from(document.querySelectorAll('.mediaChoice'))
@@ -142,7 +178,9 @@ async function displayMedia(medias) {
           container.removeChild(loader)
           container.appendChild(video)
         }
-      } else {
+      }
+      else{
+        //if unknown media type
         container.removeChild(loader);
         container.innerHTML = "Type de media non reconnu"
       }
@@ -217,6 +255,11 @@ async function displayMedia(medias) {
   }
   
   lightbox.init()
+  /*---------------------------------------------------------------------------------
+  -----------------------------------------------------------------------------------
+  ------------------------------- FIN LIGHTBOX---------------------------------------
+  -----------------------------------------------------------------------------------
+  ---------------------------------------------------------------------------------*/
 }
 
 

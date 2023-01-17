@@ -102,8 +102,7 @@ form input {
     margin-right: 20px;
 }
 
-.filtre #select {
-    appearance: none;
+.filtre #select{
     background: #901C1C;
     border-radius: 5px;
     color: white;
@@ -115,9 +114,42 @@ form input {
 }
 
 .filtre #select option {
-    height: 68px;
+    display: none;
 }
 
+.sort-list{
+    display: none;
+    flex-direction: column;
+    border-radius: 5px;
+}
+.sort-entry{
+    background: #901C1C;
+    border: none;
+    border-top: 1px solid white;
+    border-top-width: 50%;
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+    height: 69px;
+    width: 170px;
+    padding-left: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+#firstchoice{
+    border-radius: 5px 5px 0 0;
+}
+
+#thirdchoice{
+    border-radius:0 0 5px 5px;
+}
+
+.sort-entry i {
+    font-size: 10px;
+}
 .send_button {
     font-size: 20px;
     font-weight: bold;
