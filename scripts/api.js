@@ -1,9 +1,16 @@
 const url = "./../data/photographers.json";
 // Retourne une promise contenant média et photographers
+let data;
+
 async function getData() {
+    if (data) {
+        return data;
+    }
+
     try {
         let res = await fetch(url);
-        return await res.json();
+        data = await res.json();
+        return data;
     } catch (error) {
         console.log(error);
     }

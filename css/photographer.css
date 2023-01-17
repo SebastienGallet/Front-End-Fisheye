@@ -103,6 +103,7 @@ form input {
 }
 
 .filtre #select {
+    appearance: none;
     background: #901C1C;
     border-radius: 5px;
     color: white;

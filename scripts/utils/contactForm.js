@@ -111,3 +111,11 @@ function validate(){
     disableSendButton()
     return false
 }
+
+form.addEventListener('submit', function(e) {
+  e.preventDefault();
+  console.log('Prénom: ' + firstName.value);
+  console.log('Nom: ' + lastName.value);
+  console.log('Email: ' + mail.value);
+  console.log('Message: ' + message.value);
+});

@@ -27,7 +27,7 @@ selectElement.addEventListener('change', () => {
   displayMedia(medias, photographer);
 });
 
-async function displayMedia(medias, photographer) {
+async function displayMedia(medias) {
   const section = document.querySelector('.medias');
   medias.forEach((media) => {
     const mediaModel = mediaFactory(media);
@@ -84,7 +84,7 @@ async function displayMedia(medias, photographer) {
       totalLikesElement.textContent = `${totalLikes}`;
       localStorage.setItem("totalLikes", totalLikes);
       
-      // Enregistrez l'état actuel du coeur et du like dans localStorage
+      // stockage dans le ls
       if (liked) {
         localStorage.setItem(`liked-${media.id}`, JSON.stringify(liked));
       } else { 
@@ -94,118 +94,107 @@ async function displayMedia(medias, photographer) {
     });
   });
 
-  // affichage du nombre total de likes
-  let totalLikes = JSON.parse(localStorage.getItem("totalLikes")) || 0;
-  const totalLikesElement = document.querySelector('.total-likes');
-  totalLikesElement.textContent = `${totalLikes}`;
-
-
-
-  /*---------------------------------------------------------------------------------
-  -----------------------------------------------------------------------------------
-  -------------------------------LIGHTBOX--------------------------------------------
-  -----------------------------------------------------------------------------------
-  ---------------------------------------------------------------------------------*/
-  /**
-   * @property {HTMLElement} element
-   * @property {string[]} images chemin des images de la lightbox
-   */
-    class lightbox{
-      static init() {
-          const links = Array.from(document.querySelectorAll('.mediaChoice'))
-          const gallery = links.map(link=> link.getAttribute('src'))
-
-
-              links.forEach(link => link.addEventListener('click', e =>{
-                  e.preventDefault()
-                  new lightbox(e.currentTarget.getAttribute('src'), gallery)
-              }))
-      }
-
-      /**
-       * @param {string} url  url de l'image
-       * @param {string[]} images  chemin des images de la lightbox
-       * @param {string} url image actuellement affichée*/
-      constructor(url, images) {
-          this.element = this.buildDOM(url)
-          this.images= images
-          this.loadImage(url)
-          this.onKeyUp = this.onKeyUp.bind(this)
-          document.body.appendChild(this.element)
-          document.addEventListener('keyup', this.onKeyUp)
-      }
-
-      /**
-       * loader
-       * @param{string} url */
-      loadImage(url){
-        this.url = null
-        const image= new Image()
-        const container = this.element.querySelector('.lightbox_container')
-        const loader = document.createElement('div')
-        loader.classList.add('lightbox_loader')
-        container.innerHTML = ''
-        container.appendChild(loader)
-        image.onload =  () => {
+  class lightbox {
+    static init() {
+      const links = Array.from(document.querySelectorAll('.mediaChoice'))
+      const gallery = links.map(link => link.getAttribute('src'))
+  
+      links.forEach(link => link.addEventListener('click', e => {
+        e.preventDefault()
+        new lightbox(e.currentTarget, gallery)
+      }))
+    }
+  
+    constructor(mediaElement, images) {
+      this.mediaElement = mediaElement
+      this.images = images
+      this.currentIndex = images.findIndex(image => image === mediaElement.getAttribute('src'))
+      this.url = images[this.currentIndex]
+      this.element = this.buildDOM()
+      this.loadMedia()
+      this.onKeyUp = this.onKeyUp.bind(this)
+      document.body.appendChild(this.element)
+      document.addEventListener('keyup', this.onKeyUp)
+    }
+  
+    loadMedia() {
+      const container = this.element.querySelector('.lightbox_container')
+      const loader = document.createElement('div')
+      loader.classList.add('lightbox_loader')
+      container.innerHTML = ''
+      container.appendChild(loader)
+    
+      // Determiner le type de media
+      let mediaType = this.mediaElement.getAttribute("data-media-type")
+    
+      if (mediaType === "image" && mediaType!=null) {
+        const image = new Image()
+        image.onload = () => {
           container.removeChild(loader)
           container.appendChild(image)
-          this.url = url
         }
-        image.src = url
-      }
-
-      /**
-       * Ferme sur echap
-       * @param {MouseEvent} e 
-       */
-      onKeyUp (e){
-        if (e.key === 'Escape') {
-          this.close(e)
-        } else if (e.key === 'ArrowLeft') {
-          this.prev(e)
-        } else if (e.key === 'ArrowRight') {
-          this.next(e)
+        image.src = this.images[this.currentIndex]
+      } else if (mediaType === "video" && mediaType!=null) {
+        const video = document.createElement('video')
+        video.src = this.images[this.currentIndex]
+        video.controls = true
+        video.onloadeddata = () => {
+          container.removeChild(loader)
+          container.appendChild(video)
         }
+      } else {
+        container.removeChild(loader);
+        container.innerHTML = "Type de media non reconnu"
       }
-
-
-
-      /**
-       * Ferme la lightbox
-       * @param{MouseEvent/KeyboardEvent} e */
-      close(e) {
-        e.preventDefault()
-        this.element.classList.add('fadeOut')
-        window.setTimeout(() => {
-          this.element.parentElement.removeChild(this.element)
-        }, 500)
-        document.removeEventListener('keyup', this.onKeyUp)
+    }
+    
+  
+    buildDOM() {
+      return `
+      <div class="lightbox_overlay fadeIn">
+        <div class="lightbox_container">
+        </div>
+        <i class="fa-solid fa-times icon close" id="close"></i>
+        <i class="fa-solid fa-arrow-left icon prev" id="prev"></i>
+        <i class="fa-solid fa-arrow-right icon next" id="next"></i>
+      </div>
+      `
+    }
+    
+    onKeyUp(e) {
+      if (e.key === 'Escape') {
+        this.close(e)
+      } else if (e.key === 'ArrowLeft') {
+        this.prev(e)
+      } else if (e.key === 'ArrowRight') {
+        this.next(e)
       }
-
-      /**
-      * navigation
-      * @param{MouseEvent/KeyboardEvent} e */
-      next (e) {
-        e.preventDefault()
-        let i = this.images.findIndex(image => image === this.url)
-        this.loadImage(this.images[i + 1])
-        if (i === this.images.length - 1) {
-          i = -1
-        }
-      }
-
-      /**
-      * navigation
-      * @param{MouseEvent/KeyboardEvent} e */
-      prev (e) {
-        e.preventDefault()
-        let i = this.images.findIndex(image => image === this.url)
-        if (i === 0){
-          i = this.images.length -1
-        }
-        this.loadImage(this.images[i - 1])
-      }
-
+    }
+    
+    close(e) {
+      e.preventDefault()
+      this.element.classList.add('fadeOut')
+      window.setTimeout(() => {
+        this.element.parentElement.removeChild(this.element)
+      }, 500)
+      document.removeEventListener('keyup', this.onKeyUp)
+    }
+    
+    prev(e) {
+      e.preventDefault();
+      this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
+      this.url = this.images[this.currentIndex];
+      this.mediaElement = document.querySelector(`img[src="${this.url}"], video[src="${this.url}"]`);
+      this.loadMedia();
+    }
+  
+    next(e) {
+      e.preventDefault();
+      this.currentIndex = (this.currentIndex + 1) % this.images.length;
+      this.url = this.images[this.currentIndex];
+      this.mediaElement = document.querySelector(`img[src="${this.url}"], video[src="${this.url}"]`);
+      this.loadMedia();
+    }
 
       /**
        * @param {string} url 
@@ -224,31 +213,39 @@ async function displayMedia(medias, photographer) {
           dom.querySelector('.lightbox_prev').addEventListener('click', this.prev.bind(this))
           return dom
       }
+      
   }
+  
   lightbox.init()
-  /*---------------------------------------------------------------------------------
-  -----------------------------------------------------------------------------------
-  ------------------------------- FIN LIGHTBOX---------------------------------------
-  -----------------------------------------------------------------------------------
-  ---------------------------------------------------------------------------------*/
-
 }
 
 
 
 
+function updateTotalLikes() {
+  let totalLikes = 0;
+  medias.forEach((media) => {
+    totalLikes += media.likes;
+  });
+  const totalLikesElement = document.querySelector('.total-likes');
+  totalLikesElement.textContent = `${totalLikes}`;
+  const priceElement = document.querySelector('.price');
+  priceElement.innerHTML = `${photographer.price}€ / jour`;
+}
 
+// charger les données du ls
+let totalLikes = JSON.parse(localStorage.getItem("totalLikes")) || 0;
 
-
-// Afficher le total des likes et le prix
-let totalLikes = 0;
+// Mettre à jour les données des médias avec les données de likes chargées
 medias.forEach((media) => {
+  media.likes = JSON.parse(localStorage.getItem(`likes-${media.id}`)) || media.likes;
   totalLikes += media.likes;
 });
-const section = document.querySelector('.total-likes');
-section.innerHTML = `${totalLikes}`;
-const priceElement = document.querySelector('.price');
-priceElement.innerHTML = `${photographer.price}€ / jour`;
+
+localStorage.setItem("totalLikes", totalLikes);
+
+//MAJ du total au chargement de la page
+updateTotalLikes();
 
 
 displayProfil(photographer);

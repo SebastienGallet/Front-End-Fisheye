@@ -25,5 +25,5 @@ export function sortMedia(medias, sortType) {
         return a.title.localeCompare(b.title);
       });
     }
-  }
+}
 
