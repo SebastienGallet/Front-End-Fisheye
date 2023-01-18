@@ -147,8 +147,9 @@ form input {
     border-radius:0 0 5px 5px;
 }
 
-.sort-entry i {
+.sort-entry em {
     font-size: 12px;
+    font-weight: bolder;
 }
 .send_button {
     font-size: 20px;
