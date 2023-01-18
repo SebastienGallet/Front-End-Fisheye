@@ -337,3 +337,55 @@ input[data-error]::after {
     font-size: 30px;
   }
   
+@media screen and (max-width:800px) {
+    .headerblock {
+        flex-direction: column;
+        
+    }
+
+    .photograph-header{
+        height: 550px;
+    }
+
+    #photographer-details{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #photographer-details h1{
+        text-align: center;
+    }
+
+    .contact_button{
+        min-height: 69px;
+    }
+}
+
+@media screen and (max-width:1200px) {
+    .medias{
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .photograph-header{
+        margin: 0 25px;
+    }
+
+    .contact_button{
+        min-width: 170px;
+    }
+
+    .filtre{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+        .info-price{
+            width: 270px;
+        }
+    
+}
