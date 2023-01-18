@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
   <head>
-    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link href="css/style.css" rel="stylesheet" type="text/css">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Plateforme pour photographes, ici vous pourrez retrouver leurs réalisations">
@@ -12,12 +12,12 @@
   <body>
     <header>
       <a href="./index.html" aria-label="Revenir a l'accueil du site">
-        <img src="assets/images/logo.png" class="logo" alt="logo Fisheye" />
+        <img src="assets/images/logo.png" class="logo" alt="logo Fisheye">
       </a>
     </header>
     <main id="main">
       
-      </div>
+      
       <div class="photograph-header"></div>
       <div class="filtre">
         <p class="trier">Trier par</p>
@@ -37,15 +37,15 @@
         <div class="modal">
           <header>
             <h2>Contactez-moi</h2>
-            <img src="assets/icons/close.svg" onclick="closeModal()" />
+            <img src="assets/icons/close.svg" onclick="closeModal()" alt="close modal">
           </header>
           <form onsubmit="return validate();">
             <div class="formData" data-error="Merci de renseigner un champ valide" data-error-visible="false">
-              <label for="first">Prénom</label>
+              <label for="prenom">Prénom</label>
               <input type="text" id="prenom" name="prenom" aria-required="true" aria-label="votre prénom">
             </div>
             <div class="formData" data-error="Merci de renseigner un champ valide" data-error-visible="false">
-              <label for="last">Nom</label>
+              <label for="nom">Nom</label>
               <input type="text" id="nom" name="nom" aria-required="true" aria-label="votre nom">
             </div>
             <div class="formData" data-error="Merci d'écrire votre mail ici" data-error-visible="false">
@@ -53,7 +53,7 @@
               <input type="email" id="email" name="email" aria-required="true" aria-label="votre email">
             </div>
             <div class="formData" data-error="Merci d'écrire votre message ici" data-error-visible="false">
-              <label for="message">Votre message</label>
+              <label for="message-input">Votre message</label>
               <input type="text" class="message-input" id="message-input" name="message" aria-label="votre message" aria-required="true">
             </div>
             <button class="send_button">Envoyer</button>
