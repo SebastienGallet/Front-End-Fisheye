@@ -322,7 +322,7 @@ input[data-error]::after {
     margin-right: 10px;
 }
 
-.info-price .total i{
+.info-price .total em{
     font-size: 24px;
 }
 
