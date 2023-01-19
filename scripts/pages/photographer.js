@@ -61,10 +61,13 @@ sortEntries.forEach(entry => {
 
 async function displayMedia(medias) {
   const section = document.querySelector('.medias');
+  let index = 0;
   medias.forEach((media) => {
     const mediaModel = mediaFactory(media);
     const photographerMedia = mediaModel.getMediaDOM();
     section.insertAdjacentHTML('beforeend', `<div class="card">${photographerMedia}</div>`);
+   
+
 
     // Récupération le coeur en utilisant l'id unique de la photo
     const heart = document.querySelector(`#heart-${media.id}`);
@@ -124,6 +127,13 @@ async function displayMedia(medias) {
       }
       localStorage.setItem(`likes-${media.id}`, likes);
     });
+  });
+
+  //Mise en place du tabindex pour l'accessibilité au clavier
+  const cards = document.querySelectorAll('.card');
+  cards.forEach(card => {
+  card.setAttribute("tabindex", index);
+  index++
   });
    /*---------------------------------------------------------------------------------
   -----------------------------------------------------------------------------------
@@ -241,9 +251,9 @@ async function displayMedia(medias) {
       buildDOM(url){
           const dom = document.createElement('div')
           dom.classList.add('lightbox')
-          dom.innerHTML = `<button class="lightbox_close"></button>
-          <button class="lightbox_next"></button>
-          <button class="lightbox_prev"></button>
+          dom.innerHTML = `<button class="lightbox_close" aria-label="fermer la lightbox"></button>
+          <button class="lightbox_next" aria-label="média suivant"></button>
+          <button class="lightbox_prev" aria-label="média précédent"></button>
           <div class="lightbox_container">
           </div>`
           dom.querySelector('.lightbox_close').addEventListener('click', this.close.bind(this))

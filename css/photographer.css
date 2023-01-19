@@ -63,6 +63,11 @@
     text-align: center;
 }
 
+fieldset {
+    border: none;
+    width: 95%;
+}
+
 form {
     display: flex;
     width: 100%;

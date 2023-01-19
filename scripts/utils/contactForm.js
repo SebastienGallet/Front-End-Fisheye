@@ -50,6 +50,8 @@ function checkMessage() {
 function closeModal() {
     const modal = document.getElementById("contact_modal");
     modal.style.display = "none";
+    modal.setAttribute("aria-hidden", "true")
+    document.querySelector('main').setAttribute("aria-hidden", "false")
 }
 
 function disableSendButton() {
@@ -58,8 +60,16 @@ function disableSendButton() {
 }
 
 function displayModal() {
-    const modal = document.getElementById("contact_modal");
+  const modal = document.getElementById("contact_modal");
 	modal.style.display = "block";
+  modal.setAttribute("aria-hidden", "false")
+  document.querySelector('main').setAttribute("aria-hidden", "true")
+  firstName.focus()
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        closeModal();
+    }
+  });
 }
 
 function enableSendButton() {
@@ -73,24 +83,28 @@ function hideError(element) {
 
 function isFirstNameValid() {
     if (firstName.value.length >= 2 && firstName.value.match(regexName)) {
+      firstName.setAttribute("aria-invalid","false")
       return true
     }
 };
 
 function isLastNameValid() {
     if (lastName.value.length >= 2 && lastName.value.match(regexName)) {
+      lastName.setAttribute("aria-invalid","false")
       return true
     }
 };
 
 function isMailValid() {
     if (mail.value.match(regexMail)) {
+      mail.setAttribute("aria-invalid","false")
       return true
     } 
 };
 
 function isMessageValid() {
     if (message.value.length > 2) {
+      message.setAttribute("aria-invalid","false")
       return true
     }
 };
