@@ -1,12 +1,12 @@
-export default function mediaFactory(data) {
-  const { name, image, title, likes, photographerId, video, id } = data;
+export default function mediaFactory (data) {
+  const { name, image, title, likes, photographerId, video, id } = data
 
-  function getMediaDOM() {
-    let media;
+  function getMediaDOM () {
+    let media
     if (image !== undefined) {
-      media = `<img src="assets/media/${photographerId}/${image}" id="lightbox-media" class="mediaChoice" alt="${title}" data-media-type="image">`;
+      media = `<img src="assets/media/${photographerId}/${image}" id="lightbox-media" class="mediaChoice" alt="${title}" data-media-type="image">`
     } else {
-      media = `<video src="assets/media/${photographerId}/${video}"  controls id="lightbox-media" class="mediaChoice" title="${title}" data-media-type="video"></video>`;
+      media = `<video src="assets/media/${photographerId}/${video}"  controls id="lightbox-media" class="mediaChoice" title="${title}" data-media-type="video"></video>`
     }
 
     return `
@@ -21,9 +21,8 @@ export default function mediaFactory(data) {
           <i class="fa-solid fa-heart icon heart" id="heart-${id}"></i>
         </div>
       </div>
-    `;
+    `
   }
 
-  return { getMediaDOM };
+  return { getMediaDOM }
 }
-
