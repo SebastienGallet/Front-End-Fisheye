@@ -1,11 +1,10 @@
-export default function photographerFactory(data) {
-    const { name, id, city, country, tagline, price, portrait } = data;
-    
-    const picture = `assets/photographers/${portrait}`;
+export default function photographerFactory (data) {
+  const { name, id, city, country, tagline, price, portrait } = data
 
-    function getUserCardDOM() {
+  const picture = `assets/photographers/${portrait}`
 
-        return`
+  function getUserCardDOM () {
+    return `
             <a href="photographer.html?photographer=${id}", aria-label="Page de ${name}"/>
                 <img src="assets/photographers/${portrait}" alt="Photo de profil du photographe ${name}">
                 <h2>${name}</h2>
@@ -14,10 +13,10 @@ export default function photographerFactory(data) {
             <p class="tagline">${tagline}</p>
             <p class="price">${price}€/jour</p>
         `
-    }
+  }
 
-    function getOnePhotographerDOM() {
-        return `
+  function getOnePhotographerDOM () {
+    return `
             <div id="photographer-details">
                 <h1>${name}</h1>
                     <p id="location">${city}, ${country}</p>
@@ -25,12 +24,7 @@ export default function photographerFactory(data) {
             </div>
             <button class="contact_button" onclick="displayModal()">Contactez-moi</button>
             <img src="assets/photographers/${portrait}" alt="Photo de profil du photographe ${name}">`
-        
-    }
-    
-    
-    return {name, picture, getUserCardDOM, getOnePhotographerDOM}
-        
+  }
+
+  return { name, picture, getUserCardDOM, getOnePhotographerDOM }
 }
-
-

@@ -1,157 +1,150 @@
-import { getPhotographersById } from "../api.js";
-import { getMediaById } from "../api.js";
-import photographerFactory from "../factories/photographer.js";
-import mediaFactory from "../factories/media.js";
-import { sortMedia } from "../utils/filterMedia.js";
+import { getPhotographersById, getMediaById } from '../api.js'
+import photographerFactory from '../factories/photographer.js'
+import mediaFactory from '../factories/media.js'
+import { sortMedia } from '../utils/filterMedia.js'
 
-async function displayProfil(photographer) {
-  const section = document.querySelector('.photograph-header');
-  const photographerModel = photographerFactory(photographer);
-  const photographerHeader = photographerModel.getOnePhotographerDOM();
-  section.insertAdjacentHTML('beforeend', `<div class="headerblock">${photographerHeader}</div>`);
+async function displayProfil (photographer) {
+  const section = document.querySelector('.photograph-header')
+  const photographerModel = photographerFactory(photographer)
+  const photographerHeader = photographerModel.getOnePhotographerDOM()
+  section.insertAdjacentHTML('beforeend', `<div class="headerblock">${photographerHeader}</div>`)
 }
 
+const photographer = await getPhotographersById()
+const medias = await getMediaById()
 
-const photographer = await getPhotographersById();
-const medias = await getMediaById();
-
-const selectElement = document.querySelector('select');
-const sortlist = document.querySelector(".sort-list")
+const selectElement = document.querySelector('select')
+const sortlist = document.querySelector('.sort-list')
 selectElement.addEventListener('click', () => {
-  selectElement.style.display = "none"
-  sortlist.style.display = "flex"
+  selectElement.style.display = 'none'
+  sortlist.style.display = 'flex'
 })
 selectElement.addEventListener('change', () => {
-  const selectedOption = selectElement.value;
-  sortMedia(medias, selectedOption);
+  const selectedOption = selectElement.value
+  sortMedia(medias, selectedOption)
 
+  const section = document.querySelector('.medias')
+  section.innerHTML = ''
+  displayMedia(medias, photographer)
+})
 
-  const section = document.querySelector('.medias');
-  section.innerHTML = '';
-  displayMedia(medias, photographer);
-});
-
-
-let sortEntries = document.querySelectorAll('.sort-entry');
+const sortEntries = document.querySelectorAll('.sort-entry')
 sortEntries.forEach(entry => {
-    entry.addEventListener('click', function(event) {
-        selectElement.style.display = "flex"
-        sortlist.style.display = "none"
-        let selectedId = event.target.dataset.id;
-        let select = document.querySelector('select');
-        switch (selectedId) {
-            case "Popularité":
-                select.options.selectedIndex = 1; // Popularité is the second option
-                break;
-            case "Date":
-                select.options.selectedIndex = 0; // Date is the first option
-                break;
-            case "Titre":
-                select.options.selectedIndex = 2; // Titre is the third option
-                break;
-        }
-        sortMedia(medias, select.value);
-        const section = document.querySelector('.medias');
-        section.innerHTML = '';
-        displayMedia(medias, photographer);
-    });
-});
+  entry.addEventListener('click', function (event) {
+    selectElement.style.display = 'flex'
+    sortlist.style.display = 'none'
+    const selectedId = event.target.dataset.id
+    const select = document.querySelector('select')
+    switch (selectedId) {
+      case 'Popularité':
+        select.options.selectedIndex = 1 // Popularité is the second option
+        break
+      case 'Date':
+        select.options.selectedIndex = 0 // Date is the first option
+        break
+      case 'Titre':
+        select.options.selectedIndex = 2 // Titre is the third option
+        break
+    }
+    sortMedia(medias, select.value)
+    const section = document.querySelector('.medias')
+    section.innerHTML = ''
+    displayMedia(medias, photographer)
+  })
+})
 
-
-
-async function displayMedia(medias) {
-  const section = document.querySelector('.medias');
-  let index = 0;
+async function displayMedia (medias) {
+  const section = document.querySelector('.medias')
+  let index = 0
   medias.forEach((media) => {
-    const mediaModel = mediaFactory(media);
-    const photographerMedia = mediaModel.getMediaDOM();
-    section.insertAdjacentHTML('beforeend', `<div class="card">${photographerMedia}</div>`);
-   
-
+    const mediaModel = mediaFactory(media)
+    const photographerMedia = mediaModel.getMediaDOM()
+    section.insertAdjacentHTML('beforeend', `<div class="card">${photographerMedia}</div>`)
 
     // Récupération le coeur en utilisant l'id unique de la photo
-    const heart = document.querySelector(`#heart-${media.id}`);
-    const likesElement = document.querySelector(`#likes-${media.id}`);
+    const heart = document.querySelector(`#heart-${media.id}`)
+    const likesElement = document.querySelector(`#likes-${media.id}`)
 
     // Récupération de l'état actuel du coeur et du like à partir de localStorage
-    let liked = JSON.parse(localStorage.getItem(`liked-${media.id}`)) || false;
-    let likes = JSON.parse(localStorage.getItem(`likes-${media.id}`)) || media.likes;
+    let liked = JSON.parse(localStorage.getItem(`liked-${media.id}`)) || false
+    let likes = JSON.parse(localStorage.getItem(`likes-${media.id}`)) || media.likes
 
     // Mise à jour de l'affichage en fonction de l'état actuel
     if (liked) {
-      heart.style.color = "red";
-      likesElement.style['font-size'] = "24px";
-      likesElement.style.color = "#901C1C";
+      heart.style.color = 'red'
+      likesElement.style['font-size'] = '24px'
+      likesElement.style.color = '#901C1C'
     } else {
-      heart.style.color = "grey";
-      likesElement.style['font-size'] = "16px";
-      likesElement.style.color = "black";
+      heart.style.color = 'grey'
+      likesElement.style['font-size'] = '16px'
+      likesElement.style.color = 'black'
     }
 
-    likesElement.textContent = `${likes}`;
+    likesElement.textContent = `${likes}`
 
     // Ajoutez un événement click sur le coeur
     heart.addEventListener('click', () => {
       if (!liked) {
-        likes += 1;
-        liked = true;
-        heart.style.color = "red";
-        likesElement.style['font-size'] = "24px";
-        likesElement.style.color = "#901C1C";
+        likes += 1
+        liked = true
+        heart.style.color = 'red'
+        likesElement.style['font-size'] = '24px'
+        likesElement.style.color = '#901C1C'
       } else {
-        likes -= 1;
-        liked = false;
-        heart.style.color = "grey";
-        likesElement.style['font-size'] = "16px";
-        likesElement.style.color = "black";
+        likes -= 1
+        liked = false
+        heart.style.color = 'grey'
+        likesElement.style['font-size'] = '16px'
+        likesElement.style.color = 'black'
       }
 
-      //maj de l'affichage
-      likesElement.textContent = `${likes}`;
-      media.likes = likes;
+      // maj de l'affichage
+      likesElement.textContent = `${likes}`
+      media.likes = likes
 
-      //maj du total
-      let totalLikes = 0;
+      // maj du total
+      let totalLikes = 0
       medias.forEach((media) => {
-        totalLikes += media.likes;
-      });
-      const totalLikesElement = document.querySelector('.total-likes');
-      totalLikesElement.textContent = `${totalLikes}`;
-      localStorage.setItem("totalLikes", totalLikes);
-      
+        totalLikes += media.likes
+      })
+      const totalLikesElement = document.querySelector('.total-likes')
+      totalLikesElement.textContent = `${totalLikes}`
+      localStorage.setItem('totalLikes', totalLikes)
+
       // stockage dans le ls
       if (liked) {
-        localStorage.setItem(`liked-${media.id}`, JSON.stringify(liked));
-      } else { 
-        localStorage.removeItem(`liked-${media.id}`);
+        localStorage.setItem(`liked-${media.id}`, JSON.stringify(liked))
+      } else {
+        localStorage.removeItem(`liked-${media.id}`)
       }
-      localStorage.setItem(`likes-${media.id}`, likes);
-    });
-  });
+      localStorage.setItem(`likes-${media.id}`, likes)
+    })
+  })
 
-  //Mise en place du tabindex pour l'accessibilité au clavier
-  const cards = document.querySelectorAll('.card');
+  // Mise en place du tabindex pour l'accessibilité au clavier
+  const cards = document.querySelectorAll('.card')
   cards.forEach(card => {
-  card.setAttribute("tabindex", index);
-  index++
-  });
-   /*---------------------------------------------------------------------------------
+    card.setAttribute('tabindex', index)
+    index++
+  })
+  /* ---------------------------------------------------------------------------------
   -----------------------------------------------------------------------------------
   -------------------------------LIGHTBOX--------------------------------------------
   -----------------------------------------------------------------------------------
-  ---------------------------------------------------------------------------------*/
+  --------------------------------------------------------------------------------- */
   class lightbox {
-    static init() {
+    static init () {
       const links = Array.from(document.querySelectorAll('.mediaChoice'))
       const gallery = links.map(link => link.getAttribute('src'))
-  
+
       links.forEach(link => link.addEventListener('click', e => {
         e.preventDefault()
+        // eslint-disable-next-line no-new, new-cap
         new lightbox(e.currentTarget, gallery)
       }))
     }
-  
-    constructor(mediaElement, images) {
+
+    constructor (mediaElement, images) {
       this.mediaElement = mediaElement
       this.images = images
       this.currentIndex = images.findIndex(image => image === mediaElement.getAttribute('src'))
@@ -162,25 +155,25 @@ async function displayMedia(medias) {
       document.body.appendChild(this.element)
       document.addEventListener('keyup', this.onKeyUp)
     }
-  
-    loadMedia() {
+
+    loadMedia () {
       const container = this.element.querySelector('.lightbox_container')
       const loader = document.createElement('div')
       loader.classList.add('lightbox_loader')
       container.innerHTML = ''
       container.appendChild(loader)
-    
+
       // Determiner le type de media
-      let mediaType = this.mediaElement.getAttribute("data-media-type")
-    
-      if (mediaType === "image" && mediaType!=null) {
+      const mediaType = this.mediaElement.getAttribute('data-media-type')
+
+      if (mediaType === 'image' && mediaType != null) {
         const image = new Image()
         image.onload = () => {
           container.removeChild(loader)
           container.appendChild(image)
         }
         image.src = this.images[this.currentIndex]
-      } else if (mediaType === "video" && mediaType!=null) {
+      } else if (mediaType === 'video' && mediaType != null) {
         const video = document.createElement('video')
         video.src = this.images[this.currentIndex]
         video.controls = true
@@ -188,28 +181,14 @@ async function displayMedia(medias) {
           container.removeChild(loader)
           container.appendChild(video)
         }
-      }
-      else{
-        //if unknown media type
-        container.removeChild(loader);
-        container.innerHTML = "Type de media non reconnu"
+      } else {
+        // if unknown media type
+        container.removeChild(loader)
+        container.innerHTML = 'Type de media non reconnu'
       }
     }
-    
-  
-    buildDOM() {
-      return `
-      <div class="lightbox_overlay fadeIn">
-        <div class="lightbox_container">
-        </div>
-        <i class="fa-solid fa-times icon close" id="close"></i>
-        <i class="fa-solid fa-arrow-left icon prev" id="prev"></i>
-        <i class="fa-solid fa-arrow-right icon next" id="next"></i>
-      </div>
-      `
-    }
-    
-    onKeyUp(e) {
+
+    onKeyUp (e) {
       if (e.key === 'Escape') {
         this.close(e)
       } else if (e.key === 'ArrowLeft') {
@@ -218,8 +197,8 @@ async function displayMedia(medias) {
         this.next(e)
       }
     }
-    
-    close(e) {
+
+    close (e) {
       e.preventDefault()
       this.element.classList.add('fadeOut')
       window.setTimeout(() => {
@@ -227,79 +206,74 @@ async function displayMedia(medias) {
       }, 500)
       document.removeEventListener('keyup', this.onKeyUp)
     }
-    
-    prev(e) {
-      e.preventDefault();
-      this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
-      this.url = this.images[this.currentIndex];
-      this.mediaElement = document.querySelector(`img[src="${this.url}"], video[src="${this.url}"]`);
-      this.loadMedia();
-    }
-  
-    next(e) {
-      e.preventDefault();
-      this.currentIndex = (this.currentIndex + 1) % this.images.length;
-      this.url = this.images[this.currentIndex];
-      this.mediaElement = document.querySelector(`img[src="${this.url}"], video[src="${this.url}"]`);
-      this.loadMedia();
+
+    prev (e) {
+      e.preventDefault()
+      this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length
+      this.url = this.images[this.currentIndex]
+      this.mediaElement = document.querySelector(`img[src="${this.url}"], video[src="${this.url}"]`)
+      this.loadMedia()
     }
 
-      /**
-       * @param {string} url 
+    next (e) {
+      e.preventDefault()
+      this.currentIndex = (this.currentIndex + 1) % this.images.length
+      this.url = this.images[this.currentIndex]
+      this.mediaElement = document.querySelector(`img[src="${this.url}"], video[src="${this.url}"]`)
+      this.loadMedia()
+    }
+
+    /**
+       * @param {string} url
        * @return {HTMLElement}
       */
-      buildDOM(url){
-          const dom = document.createElement('div')
-          dom.classList.add('lightbox')
-          dom.innerHTML = `<button class="lightbox_close" aria-label="fermer la lightbox"></button>
+    buildDOM (url) {
+      const dom = document.createElement('div')
+      dom.classList.add('lightbox')
+      dom.innerHTML = `<button class="lightbox_close" aria-label="fermer la lightbox"></button>
           <button class="lightbox_next" aria-label="média suivant"></button>
           <button class="lightbox_prev" aria-label="média précédent"></button>
           <div class="lightbox_container">
           </div>`
-          dom.querySelector('.lightbox_close').addEventListener('click', this.close.bind(this))
-          dom.querySelector('.lightbox_next').addEventListener('click', this.next.bind(this))
-          dom.querySelector('.lightbox_prev').addEventListener('click', this.prev.bind(this))
-          return dom
-      }
-      
+      dom.querySelector('.lightbox_close').addEventListener('click', this.close.bind(this))
+      dom.querySelector('.lightbox_next').addEventListener('click', this.next.bind(this))
+      dom.querySelector('.lightbox_prev').addEventListener('click', this.prev.bind(this))
+      return dom
+    }
   }
-  
+
   lightbox.init()
-  /*---------------------------------------------------------------------------------
+  /* ---------------------------------------------------------------------------------
   -----------------------------------------------------------------------------------
   ------------------------------- FIN LIGHTBOX---------------------------------------
   -----------------------------------------------------------------------------------
-  ---------------------------------------------------------------------------------*/
+  --------------------------------------------------------------------------------- */
 }
 
-
-
-
-function updateTotalLikes() {
-  let totalLikes = 0;
+function updateTotalLikes () {
+  let totalLikes = 0
   medias.forEach((media) => {
-    totalLikes += media.likes;
-  });
-  const totalLikesElement = document.querySelector('.total-likes');
-  totalLikesElement.textContent = `${totalLikes}`;
-  const priceElement = document.querySelector('.price');
-  priceElement.innerHTML = `${photographer.price}€ / jour`;
+    totalLikes += media.likes
+  })
+  const totalLikesElement = document.querySelector('.total-likes')
+  totalLikesElement.textContent = `${totalLikes}`
+  const priceElement = document.querySelector('.price')
+  priceElement.innerHTML = `${photographer.price}€ / jour`
 }
 
 // charger les données du ls
-let totalLikes = JSON.parse(localStorage.getItem("totalLikes")) || 0;
+let totalLikes = JSON.parse(localStorage.getItem('totalLikes')) || 0
 
 // Mettre à jour les données des médias avec les données de likes chargées
 medias.forEach((media) => {
-  media.likes = JSON.parse(localStorage.getItem(`likes-${media.id}`)) || media.likes;
-  totalLikes += media.likes;
-});
+  media.likes = JSON.parse(localStorage.getItem(`likes-${media.id}`)) || media.likes
+  totalLikes += media.likes
+})
 
-localStorage.setItem("totalLikes", totalLikes);
+localStorage.setItem('totalLikes', totalLikes)
 
-//MAJ du total au chargement de la page
-updateTotalLikes();
+// MAJ du total au chargement de la page
+updateTotalLikes()
 
-
-displayProfil(photographer);
-displayMedia(medias, photographer);
+displayProfil(photographer)
+displayMedia(medias, photographer)
