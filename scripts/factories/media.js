@@ -1,5 +1,5 @@
 export default function mediaFactory (data) {
-  const { name, image, title, likes, photographerId, video, id } = data
+  const { image, title, likes, photographerId, video, id } = data
 
   function getMediaDOM () {
     let media
