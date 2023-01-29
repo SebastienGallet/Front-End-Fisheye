@@ -2,7 +2,6 @@ import { getPhotographers } from '../api.js'
 import photographerFactory from '../factories/photographer.js'
 
 async function displayData (photographers) {
-  console.log(photographers)
   const photographersSection = document.querySelector('.photographer_section')
   photographers.forEach((photographer) => {
     const photographerModel = photographerFactory(photographer)
