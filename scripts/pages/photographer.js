@@ -4,6 +4,7 @@ import mediaFactory from '../factories/media.js'
 import { sortMedia } from '../utils/filterMedia.js'
 import lightbox from '../utils/lightbox.js'
 
+// HEADER BLOCK
 async function displayProfil (photographer) {
   const section = document.querySelector('.photograph-header')
   const photographerModel = photographerFactory(photographer)
@@ -14,6 +15,7 @@ async function displayProfil (photographer) {
 const photographer = await getPhotographersById()
 const medias = await getMediaById()
 
+// GESTION DU TRIAGE
 const selectElement = document.querySelector('select')
 const sortlist = document.querySelector('.sort-list')
 selectElement.addEventListener('click', () => {
@@ -54,6 +56,7 @@ sortEntries.forEach(entry => {
   })
 })
 
+// GESTION DE L'AFFICHAGE DES MEDIAS
 async function displayMedia (medias) {
   const section = document.querySelector('.medias')
   medias.forEach((media) => {
