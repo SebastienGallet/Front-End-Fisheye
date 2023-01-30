@@ -17,7 +17,7 @@ export default function mediaFactory (data) {
         <p class="media-title">${title}</p>
         <div class="likes">
           <p class="media-likes" id="likes-${id}">${likes}</p>
-          <button tabindex="-1"><i class="fa-solid fa-heart icon heart" id="heart-${id}" aria-label="Ajouter un like" tabindex="0"></i></button>
+          <button tabindex="-1" aria-label="Ajouter un like"><i class="fa-solid fa-heart icon heart" id="heart-${id}" aria-label="Ajouter un like" tabindex="0"></i></button>
         </div>
       </div>
     `
