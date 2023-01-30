@@ -68,6 +68,14 @@ class Lightbox {
       this.prev(e)
     } else if (e.key === 'ArrowRight') {
       this.next(e)
+    } else if (e.key === ' ') { // Ajoutez ceci
+      const video = this.element.querySelector('video')
+      if (!video) return
+      if (video.paused) {
+        video.play()
+      } else {
+        video.pause()
+      }
     }
   }
 
