@@ -56,7 +56,6 @@ sortEntries.forEach(entry => {
 
 async function displayMedia (medias) {
   const section = document.querySelector('.medias')
-  let index = 0
   medias.forEach((media) => {
     const mediaModel = mediaFactory(media)
     const photographerMedia = mediaModel.getMediaDOM()
@@ -84,7 +83,7 @@ async function displayMedia (medias) {
     likesElement.textContent = `${likes}`
 
     // Ajoutez un événement click sur le coeur
-    heart.addEventListener('click', () => {
+    function likesGestion () {
       if (!liked) {
         likes += 1
         liked = true
@@ -98,20 +97,15 @@ async function displayMedia (medias) {
         likesElement.style['font-size'] = '16px'
         likesElement.style.color = 'black'
       }
-
-      // maj de l'affichage
       likesElement.textContent = `${likes}`
       media.likes = likes
-
-      // maj du total
       let totalLikes = 0
       medias.forEach((media) => {
         totalLikes += media.likes
+        const totalLikesElement = document.querySelector('.total-likes')
+        totalLikesElement.textContent = `${totalLikes}`
+        localStorage.setItem('totalLikes', totalLikes)
       })
-      const totalLikesElement = document.querySelector('.total-likes')
-      totalLikesElement.textContent = `${totalLikes}`
-      localStorage.setItem('totalLikes', totalLikes)
-
       // stockage dans le ls
       if (liked) {
         localStorage.setItem(`liked-${media.id}`, JSON.stringify(liked))
@@ -119,13 +113,19 @@ async function displayMedia (medias) {
         localStorage.removeItem(`liked-${media.id}`)
       }
       localStorage.setItem(`likes-${media.id}`, likes)
+    }
+
+    heart.addEventListener('click', likesGestion)
+    heart.addEventListener('keyup', e => {
+      if (e.key === 'Enter') {
+        likesGestion()
+      }
     })
   })
   // Mise en place du tabindex pour l'accessibilité au clavier
   const cards = document.querySelectorAll('.card')
   cards.forEach(card => {
-    card.setAttribute('tabindex', index)
-    index++
+    card.setAttribute('tabindex', '-1')
   })
 
   lightbox.init()

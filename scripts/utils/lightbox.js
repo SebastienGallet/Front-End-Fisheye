@@ -1,13 +1,21 @@
-class lightbox {
+/* eslint-disable no-new */
+class Lightbox {
   static init () {
     const links = Array.from(document.querySelectorAll('.mediaChoice'))
     const gallery = links.map(link => link.getAttribute('src'))
 
-    links.forEach(link => link.addEventListener('click', e => {
+    function handler (e) {
       e.preventDefault()
-      // eslint-disable-next-line no-new, new-cap
-      new lightbox(e.currentTarget, gallery)
-    }))
+      new Lightbox(e.currentTarget, gallery)
+    }
+    links.forEach(link => {
+      link.addEventListener('click', handler)
+      link.addEventListener('keyup', e => {
+        if (e.key === 'Enter') {
+          handler(e)
+        }
+      })
+    })
   }
 
   constructor (mediaElement, images) {
@@ -107,4 +115,4 @@ class lightbox {
   }
 }
 
-export default lightbox
+export default Lightbox
